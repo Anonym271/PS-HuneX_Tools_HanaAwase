@@ -17,6 +17,10 @@ You can see more information about .MZP in `specs` folder.
 
     python _extract_mzp.py input.mzp
 
+	- or -
+
+	python _extract_mzp.py folder
+
  Source(s)
 -----------
 * .\*.MZP ('mrgd00') [from .mrg]
@@ -29,9 +33,11 @@ You can see more information about .MZP in `specs` folder.
 -----------
 	H:\155\image\allpac-unpacked>python _extract_mzp.py -h
 	usage: _extract_mzp.py [-h] [-b] [-n] input.mzp
+	       _extract_mzp.py [-h] [-b] [-n] folder
 
 	positional arguments:
 	  input.mzp     input .mzp file
+	  folder		folder that contains multiple .mzp files
 
 	optional arguments:
 	  -h, --help    show this help message and exit

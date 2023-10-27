@@ -43,9 +43,19 @@ def parse_args():
                         action='store_true', dest='ignore_extracted',
                         help='do not extract MZP that already extracted')
     parser.add_argument('input', metavar='input.mzp', help='input .mzp file')
+    parser.add_argument('-l', '--log', help='logfile name to store information about failed operations')
 
     return parser, parser.parse_args()
 
+
+# not all MZPs are named correctly, open the file to be sure
+def is_mzp(file):
+    if file.suffix.upper().startswith('.MZP'):
+        return True
+    with open(file, 'rb') as f:
+        if f.read(6) == b'mrgd00':
+            return True
+    return False
 
 #############################################################################
 # extract verb #
@@ -58,11 +68,27 @@ def extract_check(args):
         sys.exit(20)
 
     if file_path.is_file():
-        extract_verb(args, file_path)
+        try:
+            extract_verb(args, file_path)
+        except Exception as err:
+            logging.error(err)
     else:
+        do_log = args.log is not None
+        if do_log:
+            logfile = open(args.log, 'w')
+
         for file in file_path.glob('**/*'):
-            if file.suffix == '.MZP':
-                extract_verb(args, file)
+            try:
+                if is_mzp(file):
+                    extract_verb(args, file)
+            except Exception as err:
+                logging.error(err)
+                if do_log:
+                    logfile.write(f'{file.name}: {err}\n')
+
+        if do_log:
+            logfile.close()
+
 
 
 def extract_verb(args, file: Path):

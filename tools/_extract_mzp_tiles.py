@@ -151,8 +151,9 @@ class MzpFile:
         self.tile_size = self.tile_width * self.tile_height
         if self.bmp_type not in [0x01, 0x03, 0x08, 0x0B]:
             logger.error("Unknown type 0x{:02X}".format(self.bmp_type))
-            call(["cmd", "/c", "pause"])
-            sys.exit(1)
+            # call(["cmd", "/c", "pause"])
+            # sys.exit(1)
+            raise RuntimeError("Unknown type 0x{:02X}".format(self.bmp_type))
 
         # 有索引
         if is_indexed_bitmap(self.bmp_type):
@@ -167,8 +168,9 @@ class MzpFile:
                 self.palette_count = 0x100
             else:
                 logger.error("Unknown depth 0x{:02X}".format(self.bmp_depth))
-                call(["cmd", "/c", "pause"])
-                sys.exit(1)
+                # call(["cmd", "/c", "pause"])
+                # sys.exit(1)
+                raise RuntimeError("Unknown depth 0x{:02X}".format(self.bmp_depth))
 
             if self.bmp_depth in [0x00, 0x10]:
                 for i in range(self.palette_count):
