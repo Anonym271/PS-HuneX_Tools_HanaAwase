@@ -204,7 +204,9 @@ class NamUtil:
             self.nam_index = OrderedDict()
 
     def check_nam_length(self):
-        self.nam_length = 0x8 if self.base_stem.name.find('voice') >= 0 else 0x20
+        # self.nam_length = 0x8 if self.base_stem.name.find('voice') >= 0 else 0x20
+        # 0x40 for HanaAwase
+        self.nam_length = 0x8 if self.base_stem.name.find('voice') >= 0 else 0x40
 
     def check_nam_total(self):
         self.data.seek(0x10)
